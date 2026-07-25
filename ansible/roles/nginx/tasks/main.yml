@@ -1,0 +1,14 @@
+---
+- name: Ensure Nginx Configuration Directory Exists
+  file:
+    path: "{{ app_dir }}/../nexus-engine-devops/nginx"
+    state: directory
+
+- name: Render Nginx Configuration Template
+  template:
+    src: nginx.conf.j2
+    dest: "{{ app_dir }}/../nexus-engine-devops/nginx/nginx.conf"
+
+- name: Reload Nginx Proxy Container
+  command: docker exec nexus-nginx nginx -s reload
+  failed_when: false

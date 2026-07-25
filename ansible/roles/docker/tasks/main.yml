@@ -1,0 +1,10 @@
+---
+- name: Verify Docker Engine availability
+  command: docker --version
+  register: docker_check
+  changed_when: false
+  failed_when: false
+
+- name: Log Docker Status
+  debug:
+    msg: "Docker status: {{ docker_check.stdout }}"

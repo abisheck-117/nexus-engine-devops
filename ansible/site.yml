@@ -1,0 +1,14 @@
+---
+# Master Ansible Deployment Playbook for NexusEngine Enterprise
+- name: Deploy NexusEngine Enterprise Stack & Telemetry Infrastructure
+  hosts: nexus_servers
+  gather_facts: false
+  vars:
+    app_dir: "D:/FastApi/nexus-engine-backend"
+    app_port: 8000
+    nginx_port: 80
+  
+  roles:
+    - docker
+    - nexus_app
+    - nginx

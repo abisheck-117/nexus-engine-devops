@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+
+    environment {
+        APP_NAME = 'nexus-engine-backend'
+        IMAGE_TAG = 'nexus-engine-backend:latest'
+        BACKEND_DIR = '../nexus-engine-backend'
+    }
+
+    stages {
+        stage('1. Checkout Code') {
+            steps {
+                echo '=== Stage 1: Checking out application repository ==='
+                script {
+                    sh 'git status || echo "Local checkout ready."'
+                }
+            }
+        }
+
+        stage('2. Lint & Pytest Suite') {
+            steps {
+                echo '=== Stage 2: Executing automated test suite ==='
+                dir("${env.BACKEND_DIR}") {
+                    sh '''
+                        python -m pip install --upgrade pip
+                        pip install -r requirements.txt
+                        pytest -v tests/
+                    '''
+                }
+            }
+        }
+
+        stage('3. Build Container Image') {
+            steps {
+                echo '=== Stage 3: Building Docker container image ==='
+                dir("${env.BACKEND_DIR}") {
+                    sh 'docker build -t ${IMAGE_TAG} .'
+                }
+            }
+        }
+
+        stage('4. Ansible Provision & Deploy') {
+            steps {
+                echo '=== Stage 4: Orchestrating Ansible Infrastructure Deployment ==='
+                dir('ansible') {
+                    sh 'ansible-playbook -i inventory/hosts.ini site.yml'
+                }
+            }
+        }
+
+        stage('5. Verification & Health Gate') {
+            steps {
+                echo '=== Stage 5: Verifying application telemetry & Nginx reverse proxy ==='
+                sh '''
+                    curl -f http://localhost:80/health || exit 1
+                    curl -f http://localhost:80/api/v1/analytics/metrics || exit 1
+                    echo "✓ NexusEngine Enterprise Pipeline deployment verified successfully!"
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            echo '=== Pipeline Execution Completed ==='
+        }
+        success {
+            echo 'SUCCESS: All stages passed. Deployment is live on http://localhost:80'
+        }
+        failure {
+            echo 'FAILURE: Pipeline encountered errors during execution.'
+        }
+    }
+}
