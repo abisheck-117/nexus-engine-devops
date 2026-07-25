@@ -1,0 +1,25 @@
+name: DevOps Infrastructure CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    name: Validate Docker Compose & Shell Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose Syntax
+        run: |
+          docker compose -f docker-compose.devops.yml config
+
+      - name: Validate Shell Scripts Syntax
+        run: |
+          bash -n scripts/deploy.sh
+          bash -n scripts/status_check.sh
