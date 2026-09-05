@@ -1,0 +1,5 @@
+# Place your devops screenshots in this directory:
+# - 01_grafana_dashboard.png    -> Grafana Observability Dashboards
+# - 02_prometheus_targets.png   -> Prometheus Target Scraping UI
+# - 03_jenkins_pipeline.png     -> Multi-Stage Jenkins Build Pipeline
+# - 04_docker_compose_stack.png -> Container Stack & API Gateway

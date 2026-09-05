@@ -20,6 +20,34 @@
 
 ---
 
+## 📸 Screenshots & Infrastructure Showcase
+
+<div align="center">
+
+### 📊 1. Grafana Production Observability Dashboard
+*Real-time visualizations for HTTP RPS, latency distribution, active WebSockets, and system load.*
+
+![Grafana Observability Dashboard](docs/screenshots/01_grafana_dashboard.png.png)
+
+<br/>
+
+### 🎯 2. Prometheus Scraping & Target Health
+*Prometheus scraping FastAPI `/api/v1/analytics/metrics` endpoint with 5-second interval.*
+
+![Prometheus Telemetry Scraper](docs/screenshots/02_prometheus_targets.png.png)
+
+<br/>
+
+### 🐳 3. Multi-Container Orchestration & API Gateway
+*Unified Docker Compose topology fronted by Nginx with WebSocket upgrade and SSE support.*
+
+![Docker Compose & Nginx Gateway](docs/screenshots/04_docker_compose_stack.png.png)
+
+</div>
+
+---
+
+
 ## 🎯 Purpose & Scope
 
 In modern software engineering organizations, application source code and infrastructure operations are decoupled into dedicated repositories. **NexusEngine DevOps** automates the end-to-end lifecycle of the **NexusEngine Backend**:

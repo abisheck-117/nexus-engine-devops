@@ -3,3 +3,9 @@
 *.log
 *.retry
 ansible/*.retry
+
+# Local Project Knowledge & Memory (Ignored from remote repos)
+.project_knowledge/
+.nexus_knowledge/
+agent_docs/
+
